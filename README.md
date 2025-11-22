@@ -1,5 +1,5 @@
 Hi there 👋
-I am Tyson Thompson, a 4rd year student at the Carleton University pursuing Computer Science💻.
+I am Tyson Thompson, a 4rd year student at Carleton University pursuing Computer Science💻.
 
 I love to travel ✈ and play video games 🎮 in my free time.
 
