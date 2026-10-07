@@ -301,6 +301,11 @@ button:hover:not(:disabled) {
   justify-content: center;
 }
 
+.story-stage__remove {
+  display: flex;
+  justify-content: center;
+}
+
 .empty-state {
   text-align: center;
 }

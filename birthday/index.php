@@ -120,6 +120,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $_SESSION['flash'] = 'All stories cleared.';
         redirectToSelf();
     }
+
+    if ($action === 'delete_story') {
+        if (!($_SESSION['birthday_admin'] ?? false)) {
+            $_SESSION['error'] = 'Admin access required.';
+            redirectToSelf();
+        }
+
+        $storyId = $_POST['story_id'] ?? '';
+        $stories = readStories($storiesFile);
+        $filteredStories = array_values(array_filter($stories, static function (array $story) use ($storyId): bool {
+            return ($story['id'] ?? '') !== $storyId;
+        }));
+
+        if (count($filteredStories) === count($stories)) {
+            $_SESSION['error'] = 'Could not find that story to remove.';
+        } else {
+            writeStories($storiesFile, $filteredStories);
+            $_SESSION['flash'] = 'Story removed.';
+        }
+
+        redirectToSelf();
+    }
 }
 
 $isAdmin = (bool) ($_SESSION['birthday_admin'] ?? false);
@@ -269,6 +291,12 @@ foreach ($stories as $entry) {
               <button id="prev-story" class="secondary-button" type="button">Previous</button>
               <button id="next-story" class="primary-button" type="button">Next</button>
             </div>
+
+            <form class="story-stage__remove" method="post" action="index.php" onsubmit="return confirm('Remove this story? This cannot be undone.');">
+              <input type="hidden" name="action" value="delete_story">
+              <input id="current-story-id" type="hidden" name="story_id" value="">
+              <button class="ghost-button ghost-button--danger" type="submit">Remove this story</button>
+            </form>
           </div>
         <?php endif; ?>
       </section>

@@ -4,6 +4,7 @@ if (stage) {
   const stories = JSON.parse(stage.dataset.stories || "[]");
   const storyDisplay = document.getElementById("story-display");
   const storyPosition = document.getElementById("story-position");
+  const currentStoryIdInput = document.getElementById("current-story-id");
   const prevButton = document.getElementById("prev-story");
   const nextButton = document.getElementById("next-story");
   let storyOrder = shuffle([...stories]);
@@ -17,6 +18,9 @@ if (stage) {
     const currentStory = storyOrder[currentIndex];
     storyDisplay.textContent = currentStory.story;
     storyPosition.textContent = `Story ${currentIndex + 1} of ${storyOrder.length}`;
+    if (currentStoryIdInput) {
+      currentStoryIdInput.value = currentStory.id || "";
+    }
   }
 
   function goNext() {
